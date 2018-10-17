@@ -79,13 +79,17 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="KL_iOS">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="说明: 本文是通过shell脚本执行自动重签名(脚本来自于 Hank大神) 自由创建一个工程  编译工程 找到Products 文件夹下的.app show in finder 替换成下载的ipa解压出来的微信的Wechat.app (微信的ipa包可以用pp助手什么的下载 最好是越狱版本的)  在Xcode Build Phases 里面添加Script Phases  在项目根目录创建以App">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS微信重签名记录">
+<meta property="og:url" content="http://yoursite.com/2018/10/17/KLWechatMulti/index.html">
 <meta property="og:site_name" content="KL_iOS">
+<meta property="og:description" content="说明: 本文是通过shell脚本执行自动重签名(脚本来自于 Hank大神) 自由创建一个工程  编译工程 找到Products 文件夹下的.app show in finder 替换成下载的ipa解压出来的微信的Wechat.app (微信的ipa包可以用pp助手什么的下载 最好是越狱版本的)  在Xcode Build Phases 里面添加Script Phases  在项目根目录创建以App">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-10-17T11:20:33.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="KL_iOS">
+<meta name="twitter:title" content="iOS微信重签名记录">
+<meta name="twitter:description" content="说明: 本文是通过shell脚本执行自动重签名(脚本来自于 Hank大神) 自由创建一个工程  编译工程 找到Products 文件夹下的.app show in finder 替换成下载的ipa解压出来的微信的Wechat.app (微信的ipa包可以用pp助手什么的下载 最好是越狱版本的)  在Xcode Build Phases 里面添加Script Phases  在项目根目录创建以App">
 
 
 
@@ -115,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/10/17/KLWechatMulti/"/>
 
 
 
 
 
-  <title>KL_iOS</title>
+  <title>iOS微信重签名记录 | KL_iOS</title>
   
 
 
@@ -140,8 +144,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -214,9 +217,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -246,9 +249,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/17/KLWechatMulti/" itemprop="url">iOS微信重签名记录</a></h1>
+          <h1 class="post-title" itemprop="name headline">iOS微信重签名记录</h1>
         
 
         <div class="post-meta">
@@ -298,9 +299,7 @@
       
 
       
-        
-          
-            <h5 id="说明-本文是通过shell脚本执行自动重签名-脚本来自于-Hank大神"><a href="#说明-本文是通过shell脚本执行自动重签名-脚本来自于-Hank大神" class="headerlink" title="说明: 本文是通过shell脚本执行自动重签名(脚本来自于 Hank大神)"></a>说明: 本文是通过shell脚本执行自动重签名(脚本来自于 <a href="https://www.jianshu.com/u/fa45480a8444" target="_blank" rel="noopener">Hank大神</a>)</h5><ol>
+        <h5 id="说明-本文是通过shell脚本执行自动重签名-脚本来自于-Hank大神"><a href="#说明-本文是通过shell脚本执行自动重签名-脚本来自于-Hank大神" class="headerlink" title="说明: 本文是通过shell脚本执行自动重签名(脚本来自于 Hank大神)"></a>说明: 本文是通过shell脚本执行自动重签名(脚本来自于 <a href="https://www.jianshu.com/u/fa45480a8444" target="_blank" rel="noopener">Hank大神</a>)</h5><ol>
 <li><p>自由创建一个工程</p>
 </li>
 <li><p>编译工程 找到Products 文件夹下的.app show in finder 替换成下载的ipa解压出来的微信的Wechat.app (微信的ipa包可以用pp助手什么的下载 最好是越狱版本的)</p>
@@ -314,8 +313,6 @@
 </ol>
 <h4 id="重签名脚本"><a href="#重签名脚本" class="headerlink" title="重签名脚本"></a>重签名脚本</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"># $&#123;SRCROOT&#125; 它是工程文件所在的目录</span><br><span class="line">TEMP_PATH=&quot;$&#123;SRCROOT&#125;/Temp&quot;</span><br><span class="line">#资源文件夹，我们提前在工程目录下新建一个APP文件夹，里面放ipa包</span><br><span class="line">ASSETS_PATH=&quot;$&#123;SRCROOT&#125;/APP&quot;</span><br><span class="line">#目标ipa包路径</span><br><span class="line">TARGET_IPA_PATH=&quot;$&#123;ASSETS_PATH&#125;/*.ipa&quot;</span><br><span class="line">#清空Temp文件夹</span><br><span class="line">rm -rf &quot;$&#123;SRCROOT&#125;/Temp&quot;</span><br><span class="line">mkdir -p &quot;$&#123;SRCROOT&#125;/Temp&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#----------------------------------------</span><br><span class="line"># 1. 解压IPA到Temp下</span><br><span class="line">unzip -oqq &quot;$TARGET_IPA_PATH&quot; -d &quot;$TEMP_PATH&quot;</span><br><span class="line"># 拿到解压的临时的APP的路径</span><br><span class="line">TEMP_APP_PATH=$(set -- &quot;$TEMP_PATH/Payload/&quot;*.app;echo &quot;$1&quot;)</span><br><span class="line"># echo &quot;路径是:$TEMP_APP_PATH&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#----------------------------------------</span><br><span class="line"># 2. 将解压出来的.app拷贝进入工程下</span><br><span class="line"># BUILT_PRODUCTS_DIR 工程生成的APP包的路径</span><br><span class="line"># TARGET_NAME target名称</span><br><span class="line">TARGET_APP_PATH=&quot;$BUILT_PRODUCTS_DIR/$TARGET_NAME.app&quot;</span><br><span class="line">echo &quot;app路径:$TARGET_APP_PATH&quot;</span><br><span class="line"></span><br><span class="line">rm -rf &quot;$TARGET_APP_PATH&quot;</span><br><span class="line">mkdir -p &quot;$TARGET_APP_PATH&quot;</span><br><span class="line">cp -rf &quot;$TEMP_APP_PATH/&quot; &quot;$TARGET_APP_PATH&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#----------------------------------------</span><br><span class="line"># 3. 删除extension和WatchAPP.个人证书没法签名Extention</span><br><span class="line">rm -rf &quot;$TARGET_APP_PATH/PlugIns&quot;</span><br><span class="line">rm -rf &quot;$TARGET_APP_PATH/Watch&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#----------------------------------------</span><br><span class="line"># 4. 更新info.plist文件 CFBundleIdentifier</span><br><span class="line">#  设置:&quot;Set : KEY Value&quot; &quot;目标文件路径&quot;</span><br><span class="line">/usr/libexec/PlistBuddy -c &quot;Set :CFBundleIdentifier $PRODUCT_BUNDLE_IDENTIFIER&quot; &quot;$TARGET_APP_PATH/Info.plist&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#----------------------------------------</span><br><span class="line"># 5. 给MachO文件上执行权限</span><br><span class="line"># 拿到MachO文件的路径</span><br><span class="line">APP_BINARY=`plutil -convert xml1 -o - $TARGET_APP_PATH/Info.plist|grep -A1 Exec|tail -n1|cut -f2 -d\&gt;|cut -f1 -d\&lt;`</span><br><span class="line">#上可执行权限</span><br><span class="line">chmod +x &quot;$TARGET_APP_PATH/$APP_BINARY&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#----------------------------------------</span><br><span class="line"># 6. 重签名第三方 FrameWorks</span><br><span class="line">TARGET_APP_FRAMEWORKS_PATH=&quot;$TARGET_APP_PATH/Frameworks&quot;</span><br><span class="line">if [ -d &quot;$TARGET_APP_FRAMEWORKS_PATH&quot; ];</span><br><span class="line">then</span><br><span class="line">for FRAMEWORK in &quot;$TARGET_APP_FRAMEWORKS_PATH/&quot;*</span><br><span class="line">do</span><br><span class="line"></span><br><span class="line">#签名</span><br><span class="line">/usr/bin/codesign --force --sign &quot;$EXPANDED_CODE_SIGN_IDENTITY&quot; &quot;$FRAMEWORK&quot;</span><br><span class="line">done</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
 
-          
-        
       
     </div>
     
@@ -332,144 +329,28 @@
       
 
       
-
-      
-
       
       
-        <div class="post-eof"></div>
+
       
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/15/KLIphoneSize/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="likuan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="KL_iOS">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/15/KLIphoneSize/" itemprop="url">iPhone XR iPhone XS iPhone XS Max 尺寸</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-15T14:31:35+08:00">
-                2018-10-15
-              </time>
+              <a href="/2018/10/15/KLIphoneSize/" rel="next" title="iPhone XR iPhone XS iPhone XS Max 尺寸">
+                <i class="fa fa-chevron-left"></i> iPhone XR iPhone XS iPhone XS Max 尺寸
+              </a>
             
+          </div>
 
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <h3 id="iPhone-XR-6-1英寸"><a href="#iPhone-XR-6-1英寸" class="headerlink" title="iPhone XR 6.1英寸"></a>iPhone XR 6.1英寸</h3><p>LCD 全面屏多点触控显示屏，采用 IPS 技术</p>
-<p>1792 x 828 像素分辨率，326 ppi</p>
-<p>1400:1 对比度 (标准)   </p>
-<h3 id="iPhone-XS-5-8英寸"><a href="#iPhone-XS-5-8英寸" class="headerlink" title="iPhone XS 5.8英寸"></a>iPhone XS 5.8英寸</h3><p>5.8 英寸 (对角线) OLED 全面屏</p>
-<p>多点触控显示屏</p>
-<p>HDR 显示</p>
-<p>2436 x 1125 像素分辨率，458 ppi</p>
-<p>1,000,000:1 对比度 (标准)</p>
-<h3 id="iPhone-XS-Max-6-5英寸"><a href="#iPhone-XS-Max-6-5英寸" class="headerlink" title="iPhone XS Max 6.5英寸"></a>iPhone XS Max 6.5英寸</h3><p>6.5 英寸 (对角线) OLED 全面屏</p>
-<p>多点触控显示屏</p>
-<p>HDR 显示</p>
-<p>2688 x 1242 像素分辨率，458 ppi</p>
-<p>1,000,000:1 对比度 (标准)</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -479,266 +360,11 @@
   </article>
 
 
-    
-      
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/12/KLDocInstance/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="likuan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="KL_iOS">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/12/KLDocInstance/" itemprop="url">App接口文档实例(md格式)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-12T17:22:44+08:00">
-                2018-10-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><strong>通用约定</strong></p>
-<ol>
-<li>域名<strong>HOST</strong>代表<strong>xxxxxxx.com</strong></li>
-<li>所有的<strong>SALT</strong>代表字符串<strong>exam.com.cn</strong>(加密认证时使用)</li>
-</ol>
-<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><h4 id="账号"><a href="#账号" class="headerlink" title="账号"></a>账号</h4><ol>
-<li>时间同步</li>
-<li>登陆</li>
-<li>注册</li>
-<li>退出</li>
-<li>找回密码(设置密码)</li>
-<li>发送验证码</li>
-<li>验证手机号(包括修改手机号码)</li>
-</ol>
-<hr>
-<h4 id="时间同步"><a href="#时间同步" class="headerlink" title="时间同步"></a>时间同步</h4><blockquote>
-<p><a href="https://exam.com/system/get_system_time" target="_blank" rel="noopener">https://exam.com/system/get_system_time</a></p>
-</blockquote>
-<h3 id="post参数"><a href="#post参数" class="headerlink" title="post参数"></a>post参数</h3><table>
-<thead>
-<tr>
-<th>变量名</th>
-<th>注释</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>uuid</td>
-<td>设备编号</td>
-</tr>
-<tr>
-<td>version</td>
-<td>当前版本号</td>
-</tr>
-</tbody>
-</table>
-<h3 id="返回值"><a href="#返回值" class="headerlink" title="返回值"></a>返回值</h3><ul>
-<li>data 服务器系统的时间（13位时间戳）<h4 id="example"><a href="#example" class="headerlink" title="example"></a>example</h4>  {<pre><code>&quot;code&quot;: 200,
-&quot;msg&quot;: &quot;success&quot;,
-&quot;data&quot;: 1400000000000
-</code></pre>  }</li>
-</ul>
-<h2 id="登陆"><a href="#登陆" class="headerlink" title="登陆"></a><a href="#_2">登陆</a></h2><blockquote>
-<p><a href="https://exam.com.cn/Auth/login" target="_blank" rel="noopener">https://exam.com.cn/Auth/login</a></p>
-</blockquote>
-<h3 id="post参数-1"><a href="#post参数-1" class="headerlink" title="post参数"></a>post参数</h3><table>
-<thead>
-<tr>
-<th>变量名</th>
-<th>注释</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>username</td>
-<td>用户名</td>
-</tr>
-<tr>
-<td>time</td>
-<td>服务器系统时间戳（10位时间 + 3位随机数）</td>
-</tr>
-<tr>
-<td>key</td>
-<td>sha1(username + md5(password) + time + <strong>SALT</strong>)</td>
-</tr>
-<tr>
-<td>uuid</td>
-<td>设备编号</td>
-</tr>
-<tr>
-<td>version</td>
-<td>当前版本号</td>
-</tr>
-<tr>
-<td>jpush_id</td>
-<td>极光推送RegistrationID(获取方式见极光API)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="返回值-1"><a href="#返回值-1" class="headerlink" title="返回值"></a>返回值</h3><ul>
-<li>data 是经过des(substr(md5(password), 0, 8))加密过的</li>
-<li>uid 用户id</li>
-<li>token 令牌</li>
-<li>phone 用户手机号码</li>
-<li>name 用户姓名</li>
-<li>inviter_id 邀请人id<h4 id="example-1"><a href="#example-1" class="headerlink" title="example"></a>example</h4>  {<pre><code>&quot;code&quot;: 200,
-&quot;msg&quot;: &quot;success&quot;,
-&quot;data&quot;: {
-    &quot;uid&quot;: &quot;123&quot;,
-    &quot;phone&quot;: &quot;13500000000&quot;,
-    &quot;name&quot;: &quot;张三&quot;,
-    &quot;token&quot;: &quot;xxxxxxxx&quot;,
-    &quot;inviter_id&quot;: &quot;xxxx&quot;
-}
-</code></pre>  }</li>
-</ul>
-<h2 id="注册"><a href="#注册" class="headerlink" title="注册"></a><a href="#_2">注册</a></h2><blockquote>
-<p><a href="https://example.com/Auth/reg" target="_blank" rel="noopener">https://example.com/Auth/reg</a></p>
-</blockquote>
-<h3 id="post参数-2"><a href="#post参数-2" class="headerlink" title="post参数"></a>post参数</h3><table>
-<thead>
-<tr>
-<th>变量名</th>
-<th>注释</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>uuid</td>
-<td>设备编号</td>
-</tr>
-<tr>
-<td>version</td>
-<td>当前版本号</td>
-</tr>
-<tr>
-<td>pwd</td>
-<td>md5后的密码</td>
-</tr>
-<tr>
-<td>in_uid</td>
-<td>邀请码</td>
-</tr>
-<tr>
-<td>mob_token_key</td>
-<td>验证参数</td>
-</tr>
-<tr>
-<td>mob</td>
-<td>手机号码</td>
-</tr>
-</tbody>
-</table>
-<h3 id="返回值-2"><a href="#返回值-2" class="headerlink" title="返回值"></a>返回值</h3><h4 id="example-2"><a href="#example-2" class="headerlink" title="example"></a>example</h4><pre><code>{
-    &quot;code&quot;: 200,
-    &quot;msg&quot;: &quot;success&quot;
-}
-</code></pre><h4 id="end"><a href="#end" class="headerlink" title="end"></a>end</h4>
-          
-        
+    <div class="post-spread">
       
     </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
   </div>
-  
-  
-  
-  </article>
-
-
-    
-  </section>
-
-  
 
 
           </div>
@@ -746,6 +372,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -766,8 +396,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -809,6 +448,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#说明-本文是通过shell脚本执行自动重签名-脚本来自于-Hank大神"><span class="nav-number">1.</span> <span class="nav-text">说明: 本文是通过shell脚本执行自动重签名(脚本来自于 Hank大神)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#重签名脚本"><span class="nav-number"></span> <span class="nav-text">重签名脚本</span></a></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -949,6 +604,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
