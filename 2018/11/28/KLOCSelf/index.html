@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="归档12345678910111213- (void)encodeWithCoder:(NSCoder *)aCoder&amp;#123;// 获取类的所有成员变量unsigned int count = 0;Ivar *ivars = class_copyIvarList([self class], &amp;amp;count);for (int i = 0; i &amp;lt; count; i++) &amp;#12">
+<meta name="description" content="Objective-C初始化对象的时候为什么总是有一句:if (self = [super init])? 众所周知，Objective-C是一门面向对象的语言，一般情况下，我们在Objective-C中定义一个类时，总要提供一个初始化方法，一般大家都是这样写的：  (MyClass *)init{self = [super init];if (self) {//执行一些资源、变量的初始化工作}r">
 <meta property="og:type" content="article">
-<meta property="og:title" content="iOS Runtime应用之自动归档">
-<meta property="og:url" content="http://yoursite.com/2018/11/02/KLRuntime-gd/index.html">
+<meta property="og:title" content="Objective-C初始化对象的时候为什么要写:self = [super init]">
+<meta property="og:url" content="http://yoursite.com/2018/11/28/KLOCSelf/index.html">
 <meta property="og:site_name" content="KL_iOS">
-<meta property="og:description" content="归档12345678910111213- (void)encodeWithCoder:(NSCoder *)aCoder&amp;#123;// 获取类的所有成员变量unsigned int count = 0;Ivar *ivars = class_copyIvarList([self class], &amp;amp;count);for (int i = 0; i &amp;lt; count; i++) &amp;#12">
+<meta property="og:description" content="Objective-C初始化对象的时候为什么总是有一句:if (self = [super init])? 众所周知，Objective-C是一门面向对象的语言，一般情况下，我们在Objective-C中定义一个类时，总要提供一个初始化方法，一般大家都是这样写的：  (MyClass *)init{self = [super init];if (self) {//执行一些资源、变量的初始化工作}r">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-11-02T03:22:12.000Z">
+<meta property="og:updated_time" content="2018-11-28T10:48:19.852Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iOS Runtime应用之自动归档">
-<meta name="twitter:description" content="归档12345678910111213- (void)encodeWithCoder:(NSCoder *)aCoder&amp;#123;// 获取类的所有成员变量unsigned int count = 0;Ivar *ivars = class_copyIvarList([self class], &amp;amp;count);for (int i = 0; i &amp;lt; count; i++) &amp;#12">
+<meta name="twitter:title" content="Objective-C初始化对象的时候为什么要写:self = [super init]">
+<meta name="twitter:description" content="Objective-C初始化对象的时候为什么总是有一句:if (self = [super init])? 众所周知，Objective-C是一门面向对象的语言，一般情况下，我们在Objective-C中定义一个类时，总要提供一个初始化方法，一般大家都是这样写的：  (MyClass *)init{self = [super init];if (self) {//执行一些资源、变量的初始化工作}r">
 
 
 
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/11/02/KLRuntime-gd/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/11/28/KLOCSelf/"/>
 
 
 
 
 
-  <title>iOS Runtime应用之自动归档 | KL_iOS</title>
+  <title>Objective-C初始化对象的时候为什么要写:self = [super init] | KL_iOS</title>
   
 
 
@@ -232,7 +232,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/02/KLRuntime-gd/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/28/KLOCSelf/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="likuan">
@@ -249,7 +249,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">iOS Runtime应用之自动归档</h1>
+          <h1 class="post-title" itemprop="name headline">Objective-C初始化对象的时候为什么要写:self = [super init]</h1>
         
 
         <div class="post-meta">
@@ -261,8 +261,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-02T10:53:03+08:00">
-                2018-11-02
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-28T18:47:10+08:00">
+                2018-11-28
               </time>
             
 
@@ -299,9 +299,28 @@
       
 
       
-        <h4 id="归档"><a href="#归档" class="headerlink" title="归档"></a>归档</h4><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)encodeWithCoder:(<span class="built_in">NSCoder</span> *)aCoder</span><br><span class="line">&#123;</span><br><span class="line"><span class="comment">// 获取类的所有成员变量</span></span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">Ivar *ivars = class_copyIvarList([<span class="keyword">self</span> <span class="keyword">class</span>], &amp;count);</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; count; i++) &#123;</span><br><span class="line"><span class="comment">// 取得i位置的成员变量</span></span><br><span class="line">Ivar ivar = ivars[i];</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span> *name = ivar_getName(ivar);</span><br><span class="line"><span class="built_in">NSString</span> *key = [<span class="built_in">NSString</span> stringWithUTF8String:name];</span><br><span class="line">[aCoder encodeObject:[<span class="keyword">self</span> valueForKey:key] forKey:key];</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="解档"><a href="#解档" class="headerlink" title="解档"></a>解档</h4><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">id</span>)initWithCoder:(<span class="built_in">NSCoder</span> *)aDecoder &#123;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">self</span> = [<span class="keyword">super</span> init]) &#123;</span><br><span class="line"><span class="comment">// 获取类的所有成员变量</span></span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">Ivar *ivars = class_copyIvarList([<span class="keyword">self</span> <span class="keyword">class</span>], &amp;count);</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; count; i++) &#123;</span><br><span class="line"><span class="comment">// 取得i位置的成员变量</span></span><br><span class="line">Ivar ivar = ivars[i];</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span> *name = ivar_getName(ivar);</span><br><span class="line"><span class="built_in">NSString</span> *key = [<span class="built_in">NSString</span> stringWithUTF8String:name];</span><br><span class="line">[<span class="keyword">self</span> setValue:[aDecoder decodeObjectForKey:key] forKey:key];</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>end</p>
+        <p>Objective-C初始化对象的时候为什么总是有一句:if (self = [super init])?</p>
+<p>众所周知，Objective-C是一门面向对象的语言，一般情况下，我们在Objective-C中定义一个类时，总要提供一个初始化方法，一般大家都是这样写的：</p>
+<ul>
+<li>(MyClass *)init<br>{<br>self = [super init];<br>if (self) {<br>//执行一些资源、变量的初始化工作<br>}<br>return self;<br>}<br>这样一段简单的代码，却有很多可以思考的问题：<br>1、为什么要通过[super init]来调用父类的初始化方法，父类的初始化方法里又执行了什么东西？</li>
+</ul>
+<p>首先，我们知道对象继承的概念，一个子类从父类继承，那么也要实现父类的所有功能，这就是is-a的关系，比如说狗是哺乳动物，那么狗必定具有哺乳动物的特征和功能。所以在子类的初始化方法中，必须首先调用父类的初始化方法，以实现父类相关资源的初始化。例如我们在初始化狗这一对象时，必须先初始化哺乳动物这一对象，并把结果赋予狗，以使狗满足属于哺乳动物这一特征。</p>
+<p>典型的，在iOS下，所有的类都继承于NSObject，而NSObject的init方法很简单，就是return self。当父类的初始化完成之后，即self不为nil的情况下，就可以开始做子类的初始化了。</p>
+<p>2、是否一定要提供初始化方法，是否一定要使用init作为初始化方法？</p>
+<p>我们在Objective-C中创建一个对象通常使用</p>
+<p>MyClass <em>newclass = [[MyClass alloc] init];<br>或者<br>MyClass </em>newclass = [Myclass new];<br>new方法是NSObject对象的一个静态方法，根据apple的文档，该方法实际上就是alloc和init方法的组合，实际上二者是一样的，但 apple还是推荐我们使用第一种方法，为什么呢？因为使用第一种方法，你可以使用自己定义的init方法来做一些初始化，当然，如果子类没有提供 init方法，自然调用的就是父类的init方法了。所以说，从安全性的角度来收，作为开发者我们在对象使用之前是一定要对对象进行初始化的，因此在定义类的时候一定要提供初始化方法。但是否一定要使用init作为方法名呢？答案是不一定。使用init作为方法名只是你重写了NSObject的init方法而已，如果你自己重新定义一个初始化方法，也是完全可以的，只要你在使用的时候记得调用新定义的初始化方法就可以了。<br>但是，这种方法从设计角度来看我觉得是不可取的。在可复用性方面会比较差，如果确有必要定义一些接受不同参数的初始化方法，我的建议是，先定义一个init的公用方法，再到其他方法中调用它，如：</p>
+<ul>
+<li>(id)init<br>{<br>self = [super init];<br>if (self) {</li>
+</ul>
+<p>}<br>return self;<br>}</p>
+<ul>
+<li><p>(id)initWithString:(NSString *)aString<br>{<br>[self init];<br>self.name = aString;<br>}</p>
+</li>
+<li><p>(id)initWithImage:(UIImage *)aImage<br>{<br>[self init];<br>self.image = aImage;<br>}<br>补充：<br>在面向对象编程中，如果编写一个类而没有包含构造函数，这个类仍能编译并且完全可以正常使用。如果类没有提供显式的构造函数，编译器会提供一个默认的构造函数给你。除了创建对象本身，默认构造函数的唯一工作就是调用其超类的构造函数。在很多情况下，这个超类是语言框架的一部分，如java中的 Object类，objective-c 中的NSObject类。</p>
+</li>
+</ul>
+<p>不论是何种情况，在类中至少包含一个构造函数是一种很好的编程实践，如果类中有属性，好的实践往往是初始化这些属性。</p>
+<p>——以上摘自《The Object-Oriented Thought Process》 by Matt Weisfeld</p>
 
       
     </div>
@@ -326,8 +345,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/10/30/KLXiPhoneFeel/" rel="next" title="关于iPhone XS、XS MAX、XR自己的一点感受看法">
-                <i class="fa fa-chevron-left"></i> 关于iPhone XS、XS MAX、XR自己的一点感受看法
+              <a href="/2018/11/08/KLiOSKVO-Introduce/" rel="next" title="iOS-KVO基本使用和底层实现原理">
+                <i class="fa fa-chevron-left"></i> iOS-KVO基本使用和底层实现原理
               </a>
             
           </div>
@@ -335,10 +354,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/11/05/KLIPhoneiOS-IM/" rel="prev" title="iOS-即时通讯IM方案实例">
-                iOS-即时通讯IM方案实例 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -390,17 +405,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -442,22 +448,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#归档"><span class="nav-number">1.</span> <span class="nav-text">归档</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解档"><span class="nav-number">2.</span> <span class="nav-text">解档</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
