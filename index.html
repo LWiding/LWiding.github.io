@@ -229,6 +229,149 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/06/KLXcodeClear/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="likuan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="KL_iOS">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/06/KLXcodeClear/" itemprop="url">Xcode清理垃圾文件</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-06T10:46:05+08:00">
+                2019-03-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ol>
+<li>~/Library/Developer/Xcode/DerivedData/</li>
+</ol>
+<p>这个文件夹中保存的是Xcode的缓存文件，曾经在Xcode跑过的所有项目的索引、build的信息等都会保存在这里。删除后在下次打开项目编译的时候将会重新生成。由于这里包含了大量已经没用的项目的信息又懒得去筛选，于是把整个文件夹删了。</p>
+<ol start="2">
+<li>~/Library/Developer/Xcode/iOS DeviceSupport/</li>
+</ol>
+<p>每次把一个设备接入电脑进行真机调试之前，电脑会对设备建立索引，也在此文件夹下生成对该设备系统的支持文件。于是这里存在了一堆对旧版本iOS设备支持的文件。而我最近基本只对iOS9.3的设备进行真机调试。于是删除了所有低于9.3的文件夹。</p>
+<ol start="3">
+<li>~/Library/Developer/Xcode/Archives/</li>
+</ol>
+<p>每次打包App的dSYM等数据就保存在这里，把一些没用的版本删了。如果是上线了的版本还是保留吧。</p>
+<ol start="4">
+<li>~/Library/Developer/Xcode/Products/</li>
+</ol>
+<p>同上，把没用的删了。</p>
+<ol start="5">
+<li>~/Library/Developer/CoreSimulator/Devices/</li>
+</ol>
+<p>一堆模拟器的数据。每个文件夹里包含的就是一个特定系统版本的设备的数据。每个文件夹对应哪个设备可以在其下device.plist中查看。亲测删除之后的效果跟在模拟器里重置相同。省得一个个去重置了，删吧。</p>
+<ol start="6">
+<li>~/Library/Developer/XCPGDevices/</li>
+</ol>
+<p>这里保存了playground的项目缓存。全删了。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/02/KLObjcMessage/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1685,129 +1828,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/22/KLTimeChuoWithDate/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="likuan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="KL_iOS">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/22/KLTimeChuoWithDate/" itemprop="url">iOS-获取当前时间和当前时间戳</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-22T17:04:21+08:00">
-                2018-10-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="获取当前的时间"><a href="#获取当前的时间" class="headerlink" title="获取当前的时间"></a>获取当前的时间</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">+(NSString*)getCurrentTimes</span><br><span class="line">&#123;</span><br><span class="line">NSDateFormatter *formatter = [[NSDateFormatter alloc] init];</span><br><span class="line">// ----------设置你想要的格式,hh与HH的区别:分别表示12小时制,24小时制</span><br><span class="line">[formatter setDateFormat:@&quot;YYYY-MM-dd HH:mm:ss&quot;];</span><br><span class="line">//现在时间,你可以输出来看下是什么格式</span><br><span class="line">NSDate *datenow = [NSDate date];</span><br><span class="line">//----------将nsdate按formatter格式转成nsstring</span><br><span class="line">NSString *currentTimeString = [formatter stringFromDate:datenow];</span><br><span class="line">NSLog(@&quot;currentTimeString =  %@&quot;,currentTimeString);</span><br><span class="line">return currentTimeString;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="获取当前时间戳有两种方法-以秒为单位"><a href="#获取当前时间戳有两种方法-以秒为单位" class="headerlink" title="获取当前时间戳有两种方法(以秒为单位)"></a>获取当前时间戳有两种方法(以秒为单位)</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">+(NSString *)getNowTimeTimestamp</span><br><span class="line">&#123;</span><br><span class="line">NSDateFormatter *formatter = [[NSDateFormatter alloc] init] ;</span><br><span class="line">[formatter setDateStyle:NSDateFormatterMediumStyle];</span><br><span class="line">[formatter setTimeStyle:NSDateFormatterShortStyle];</span><br><span class="line">[formatter setDateFormat:@&quot;YYYY-MM-dd HH:mm:ss&quot;]; // ----------设置你想要的格式,hh与HH的区别:分别表示12小时制,24小时制</span><br><span class="line">//设置时区,这个对于时间的处理有时很重要</span><br><span class="line">NSTimeZone* timeZone = [NSTimeZone timeZoneWithName:@&quot;Asia/Shanghai&quot;];</span><br><span class="line">[formatter setTimeZone:timeZone];</span><br><span class="line">NSDate *datenow = [NSDate date];//现在时间,你可以输出来看下是什么格式</span><br><span class="line">NSString *timeSp = [NSString stringWithFormat:@&quot;%ld&quot;, (long)[datenow timeIntervalSince1970]];</span><br><span class="line">return timeSp;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+(NSString *)getNowTimeTimestamp2&#123;</span><br><span class="line"></span><br><span class="line">NSDate* dat = [NSDate dateWithTimeIntervalSinceNow:0];</span><br><span class="line">NSTimeInterval a=[dat timeIntervalSince1970];</span><br><span class="line">NSString*timeString = [NSString stringWithFormat:@&quot;%0.f&quot;, a];//转为字符型</span><br><span class="line">;</span><br><span class="line">return timeString;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="获取当前时间戳-（以毫秒为单位）"><a href="#获取当前时间戳-（以毫秒为单位）" class="headerlink" title="获取当前时间戳  （以毫秒为单位）"></a>获取当前时间戳  （以毫秒为单位）</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">+(NSString *)getNowTimeTimestamp3</span><br><span class="line">&#123;</span><br><span class="line">NSDateFormatter *formatter = [[NSDateFormatter alloc] init] ;</span><br><span class="line">[formatter setDateStyle:NSDateFormatterMediumStyle];</span><br><span class="line">[formatter setTimeStyle:NSDateFormatterShortStyle];</span><br><span class="line">[formatter setDateFormat:@&quot;YYYY-MM-dd HH:mm:ss SSS&quot;]; // ----------设置你想要的格式,hh与HH的区别:分别表示12小时制,24小时制</span><br><span class="line">//设置时区,这个对于时间的处理有时很重要</span><br><span class="line">NSTimeZone* timeZone = [NSTimeZone timeZoneWithName:@&quot;Asia/Shanghai&quot;];</span><br><span class="line">[formatter setTimeZone:timeZone];</span><br><span class="line">NSDate *datenow = [NSDate date];//现在时间,你可以输出来看下是什么格式</span><br><span class="line">NSString *timeSp = [NSString stringWithFormat:@&quot;%ld&quot;, (long)[datenow timeIntervalSince1970]*1000];</span><br><span class="line">return timeSp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>end</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1858,7 +1878,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
