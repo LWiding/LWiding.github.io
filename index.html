@@ -229,6 +229,161 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/01/KLIOSTips/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="likuan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="KL_iOS">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/01/KLIOSTips/" itemprop="url">iOS开发小技巧</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-01T18:47:02+08:00">
+                2019-04-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>.UITableView的plain样式下，取消区头停滞效果</p>
+<ul>
+<li>(void)scrollViewDidScroll:(UIScrollView *)scrollView<br>{<br>CGFloat sectionHeaderHeight = sectionHead.height;<br>if (scrollView.contentOffset.y=0)<br>{<br>scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);<br>}<br>else if(scrollView.contentOffset.y&gt;=sectionHeaderHeight)<br>{<br>scrollView.contentInset = UIEdgeInsetsMake(-sectionHeaderHeight, 0, 0, 0);<br>}<br>}</li>
+</ul>
+<p>iOS 获取汉字的拼音</p>
+<ul>
+<li>(NSString <em>)transform:(NSString </em>)chinese<br>{<br>//将NSString装换成NSMutableString<br>NSMutableString *pinyin = [chinese mutableCopy];<br>//将汉字转换为拼音(带音标)<br>CFStringTransform((<strong>bridge CFMutableStringRef)pinyin, NULL, kCFStringTransformMandarinLatin, NO);<br>NSLog(@”%@”, pinyin);<br>//去掉拼音的音标<br>CFStringTransform((</strong>bridge CFMutableStringRef)pinyin, NULL, kCFStringTransformStripCombiningMarks, NO);<br>NSLog(@”%@”, pinyin);<br>//返回最近结果<br>return pinyin;<br>}</li>
+</ul>
+<p>//阿拉伯数字转中文格式</p>
+<ul>
+<li>(NSString <em>)translation:(NSString </em>)arebic<br>{<br>NSString <em>str = arebic;<br>NSArray </em>arabic_numerals = @[@”1”,@”2”,@”3”,@”4”,@”5”,@”6”,@”7”,@”8”,@”9”,@”0”];<br>NSArray <em>chinese_numerals = @[@”一”,@”二”,@”三”,@”四”,@”五”,@”六”,@”七”,@”八”,@”九”,@”零”];<br>NSArray </em>digits = @[@”个”,@”十”,@”百”,@”千”,@”万”,@”十”,@”百”,@”千”,@”亿”,@”十”,@”百”,@”千”,@”兆”];<br>NSDictionary <em>dictionary = [NSDictionary dictionaryWithObjects:chinese_numerals forKeys:arabic_numerals];<br>NSMutableArray </em>sums = [NSMutableArray array];<br>for (int i = 0; i &lt; str.length; i ++) {<br>NSString <em>substr = [str substringWithRange:NSMakeRange(i, 1)];<br>NSString </em>a = [dictionary objectForKey:substr];<br>NSString <em>b = digits[str.length -i-1];<br>NSString </em>sum = [a stringByAppendingString:b];<br>if ([a isEqualToString:chinese_numerals[9]])<br>{<br>if([b isEqualToString:digits[4]] || [b isEqualToString:digits[8]])<br>{<br>sum = b;<br>if ([[sums lastObject] isEqualToString:chinese_numerals[9]])<br>{<br>[sums removeLastObject];<br>}<br>}else<br>{<br>sum = chinese_numerals[9];<br>}<br>if ([[sums lastObject] isEqualToString:sum])<br>{<br>continue;<br>}<br>}</li>
+</ul>
+<p>[sums addObject:sum];<br>}<br>NSString <em>sumStr = [sums componentsJoinedByString:@””];<br>NSString </em>chinese = [sumStr substringToIndex:sumStr.length-1];<br>NSLog(@”%@”,str);<br>NSLog(@”%@”,chinese);<br>return chinese;<br>}</p>
+<p>图片添加水印<br>-(UIImage <em>)aspjpegImage:(UIImage </em>)img withWord:(NSString <em>)word<br>{<br>NSString</em> mark = word;</p>
+<p>int w = img.size.width;</p>
+<p>int h = img.size.height;<br>//UIGraphicsBeginImageContext创建一个基于位图的上下文(context),并将其设置为当前上下文(context)<br>UIGraphicsBeginImageContext(img.size);</p>
+<p>[img drawInRect:CGRectMake(0, 0, w, h)];</p>
+<p>NSDictionary *attr = @{</p>
+<p>NSFontAttributeName: [UIFont boldSystemFontOfSize:20],   //设置字体</p>
+<p>NSForegroundColorAttributeName : [UIColor redColor]      //设置字体颜色</p>
+<p>};<br>//文本绘制 attr代表文本属性<br>[mark drawInRect:CGRectMake(0, 10, 100, 50) withAttributes:attr];                 //左上角</p>
+<p>[mark drawInRect:CGRectMake(w - 200, 10, 200, 50) withAttributes:attr];            //右上角</p>
+<p>[mark drawInRect:CGRectMake(w - 200, h - 50 - 10, 200, 50) withAttributes:attr];   //右下角</p>
+<p>[mark drawInRect:CGRectMake(0, h - 50 - 10, 200, 50) withAttributes:attr];        //左下角</p>
+<p>UIImage *newImg = UIGraphicsGetImageFromCurrentImageContext();</p>
+<p>UIGraphicsEndImageContext();</p>
+<p>return newImg;</p>
+<p>}</p>
+<p>取上整与取下整<br>floor(x),有时候也写做Floor(x)，其功能是“下取整”，即取不大于x的最大整数 例如：<br>x=3.14，floor(x)=3<br>y=9.99999，floor(y)=9<br>与floor函数对应的是ceil函数，即上取整函数。</p>
+<p>ceil函数的作用是求不小于给定实数的最小整数。<br>ceil(2)=ceil(1.2)=cei(1.5)=2.00<br>floor函数与ceil函数的返回值均为double型</p>
+<p>给UIView设置图片<br>UIImage *image = [UIImage imageNamed:@”image”];<br>self.MYView.layer.contents = (__bridge id _Nullable)(image.CGImage);<br>self.MYView.layer.contentsRect = CGRectMake(0, 0, 0.5, 0.5);</p>
+<p>41.防止scrollView手势覆盖侧滑手势<br>[scrollView.panGestureRecognizerrequireGestureRecognizerToFail:self.navigationController.interactivePopGestureRecognizer];</p>
+<p>//字符串中是否含有中文</p>
+<ul>
+<li>(BOOL)checkIsChinese:(NSString *)string<br>{<br>for (int i=0; i&lt;string.length; i++)<br>{<br>unichar ch = [string characterAtIndex:i];<br>if (0x4E00 &lt;= ch  &amp;&amp; ch &lt;= 0x9FA5)<br>{<br>return YES;<br>}<br>}<br>return NO;<br>}</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/06/KLXcodeClear/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1707,127 +1862,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/24/KLHttpsCASign/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="likuan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="KL_iOS">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/24/KLHttpsCASign/" itemprop="url">Charles和FIddler如何进行iPhone的HTTPS抓包的</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-24T11:09:26+08:00">
-                2018-10-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="FIddler和Charles如何进行iPhone的HTTPS抓包的（中间人攻击原理）"><a href="#FIddler和Charles如何进行iPhone的HTTPS抓包的（中间人攻击原理）" class="headerlink" title="FIddler和Charles如何进行iPhone的HTTPS抓包的（中间人攻击原理）"></a>FIddler和Charles如何进行iPhone的HTTPS抓包的（中间人攻击原理）</h4><p>第一步， charles向服务器发送请求进行握手， 获取到服务器的CA证书， 用根证书公钥进行解密， 验证服务器数据签名，获取到服务器CA证书公钥。这一步其实charles模拟的就是普通用户访问服务端，为了拿到通信的公钥而已。<br>第二步， charles伪造自己的CA证书， 冒充服务器证书传递给客户端浏览器，客户端浏览器做跟charles一样的事。<br>第三步， 客户端浏览器生成https通信用的对称密钥，用charles伪造的证书公钥加密后传递给服务器， 被charles截获。<br>第四步， charles将截获的密文用自己伪造证书的私钥解开，获得https通信用的对称密钥。<br>第五步， charles将对称密钥用服务器证书公钥加密传递给服务器， 服务器用私钥解开后建立信任，握手完成， 用对称密钥加密消息， 开始通信。<br>第六步， charles接收到服务器发送的密文， 用对称密钥解开，获得服务器发送的明文。再次加密， 发送给客户端浏览器。<br>第七步， 客户端向服务器发送消息， 用对称密钥加密， 被fidller截获后，解密获得明文。<br>由于charles一直拥有通信用对称密钥， 所以在整个https通信过程中信息对其透明。也就是说fiddler&amp;charles向服务器冒充是客户端，向客户端又谎称自己是服务器。</p>
-<h2 id="差不多就是两套RSA密钥，首先charles当做客户端向目标服务器请求，ssl握手获取证书保存公钥。然后抓包的时候我们会设置代理而且信任根证书装到手机上抓包HTTPS。我们的请求被charles截获，因此本来你和服务器建立的ssl，结果变成了你和charles建立了ssl，所有数据都发送给了charles，但是为什么能信任呢？不是根证书验证么？这可不，你自己不是刚把charles的证书装到手机并且信任了么，自然能验证合法性了，即便charles的证书是自制的。这时，ssl的时候传输的数据加密公钥，其实是charles的，你把数据传给charles，就能被charles解密（因为之前被截获，你其实就是和中间人在协商建立SSL连接了），然后charles模拟客户端请求，用原先得到的公钥加密去得到正确的密钥（charles和服务器建立SSL），来获取真实数据，然后所有的数据都会经过Charles，如果数据没有加密，即便是HTTPS，能被抓包数据或者攻击，就能看到明文了，这就是中间人攻击的原理。客户端和charles模拟一套，charles和服务器模拟一套。"><a href="#差不多就是两套RSA密钥，首先charles当做客户端向目标服务器请求，ssl握手获取证书保存公钥。然后抓包的时候我们会设置代理而且信任根证书装到手机上抓包HTTPS。我们的请求被charles截获，因此本来你和服务器建立的ssl，结果变成了你和charles建立了ssl，所有数据都发送给了charles，但是为什么能信任呢？不是根证书验证么？这可不，你自己不是刚把charles的证书装到手机并且信任了么，自然能验证合法性了，即便charles的证书是自制的。这时，ssl的时候传输的数据加密公钥，其实是charles的，你把数据传给charles，就能被charles解密（因为之前被截获，你其实就是和中间人在协商建立SSL连接了），然后charles模拟客户端请求，用原先得到的公钥加密去得到正确的密钥（charles和服务器建立SSL），来获取真实数据，然后所有的数据都会经过Charles，如果数据没有加密，即便是HTTPS，能被抓包数据或者攻击，就能看到明文了，这就是中间人攻击的原理。客户端和charles模拟一套，charles和服务器模拟一套。" class="headerlink" title="差不多就是两套RSA密钥，首先charles当做客户端向目标服务器请求，ssl握手获取证书保存公钥。然后抓包的时候我们会设置代理而且信任根证书装到手机上抓包HTTPS。我们的请求被charles截获，因此本来你和服务器建立的ssl，结果变成了你和charles建立了ssl，所有数据都发送给了charles，但是为什么能信任呢？不是根证书验证么？这可不，你自己不是刚把charles的证书装到手机并且信任了么，自然能验证合法性了，即便charles的证书是自制的。这时，ssl的时候传输的数据加密公钥，其实是charles的，你把数据传给charles，就能被charles解密（因为之前被截获，你其实就是和中间人在协商建立SSL连接了），然后charles模拟客户端请求，用原先得到的公钥加密去得到正确的密钥（charles和服务器建立SSL），来获取真实数据，然后所有的数据都会经过Charles，如果数据没有加密，即便是HTTPS，能被抓包数据或者攻击，就能看到明文了，这就是中间人攻击的原理。客户端和charles模拟一套，charles和服务器模拟一套。"></a>差不多就是两套RSA密钥，首先charles当做客户端向目标服务器请求，ssl握手获取证书保存公钥。然后抓包的时候我们会设置代理而且信任根证书装到手机上抓包HTTPS。我们的请求被charles截获，因此本来你和服务器建立的ssl，结果变成了你和charles建立了ssl，所有数据都发送给了charles，但是为什么能信任呢？不是根证书验证么？这可不，你自己不是刚把charles的证书装到手机并且信任了么，自然能验证合法性了，即便charles的证书是自制的。这时，ssl的时候传输的数据加密公钥，其实是charles的，你把数据传给charles，就能被charles解密（因为之前被截获，你其实就是和中间人在协商建立SSL连接了），然后charles模拟客户端请求，用原先得到的公钥加密去得到正确的密钥（charles和服务器建立SSL），来获取真实数据，然后所有的数据都会经过Charles，如果数据没有加密，即便是HTTPS，能被抓包数据或者攻击，就能看到明文了，这就是中间人攻击的原理。客户端和charles模拟一套，charles和服务器模拟一套。</h2><p>原文：<a href="https://blog.csdn.net/Deft_MKJing/article/details/82868900" target="_blank" rel="noopener">https://blog.csdn.net/Deft_MKJing/article/details/82868900</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1878,7 +1912,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
