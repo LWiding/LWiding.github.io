@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content=".UITableView的plain样式下，取消区头停滞效果  (void)scrollViewDidScroll:(UIScrollView *)scrollView{CGFloat sectionHeaderHeight = sectionHead.height;if (scrollView.contentOffset.y=0){scrollView.contentInset = UIEdge">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS开发小技巧">
+<meta property="og:url" content="http://yoursite.com/2019/04/01/KLIOSTips/index.html">
+<meta property="og:site_name" content="KL_iOS">
+<meta property="og:description" content=".UITableView的plain样式下，取消区头停滞效果  (void)scrollViewDidScroll:(UIScrollView *)scrollView{CGFloat sectionHeaderHeight = sectionHead.height;if (scrollView.contentOffset.y=0){scrollView.contentInset = UIEdge">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-04-01T10:48:06.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS开发小技巧">
+<meta name="twitter:description" content=".UITableView的plain样式下，取消区头停滞效果  (void)scrollViewDidScroll:(UIScrollView *)scrollView{CGFloat sectionHeaderHeight = sectionHead.height;if (scrollView.contentOffset.y=0){scrollView.contentInset = UIEdge">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/04/01/KLIOSTips/"/>
+
+
+
+
+
+  <title>iOS开发小技巧 | KL_iOS</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">KL_iOS</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/01/KLIOSTips/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="likuan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="KL_iOS">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">iOS开发小技巧</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-01T18:47:02+08:00">
+                2019-04-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>.UITableView的plain样式下，取消区头停滞效果</p>
+<ul>
+<li>(void)scrollViewDidScroll:(UIScrollView *)scrollView<br>{<br>CGFloat sectionHeaderHeight = sectionHead.height;<br>if (scrollView.contentOffset.y=0)<br>{<br>scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);<br>}<br>else if(scrollView.contentOffset.y&gt;=sectionHeaderHeight)<br>{<br>scrollView.contentInset = UIEdgeInsetsMake(-sectionHeaderHeight, 0, 0, 0);<br>}<br>}</li>
+</ul>
+<p>iOS 获取汉字的拼音</p>
+<ul>
+<li>(NSString <em>)transform:(NSString </em>)chinese<br>{<br>//将NSString装换成NSMutableString<br>NSMutableString *pinyin = [chinese mutableCopy];<br>//将汉字转换为拼音(带音标)<br>CFStringTransform((<strong>bridge CFMutableStringRef)pinyin, NULL, kCFStringTransformMandarinLatin, NO);<br>NSLog(@”%@”, pinyin);<br>//去掉拼音的音标<br>CFStringTransform((</strong>bridge CFMutableStringRef)pinyin, NULL, kCFStringTransformStripCombiningMarks, NO);<br>NSLog(@”%@”, pinyin);<br>//返回最近结果<br>return pinyin;<br>}</li>
+</ul>
+<p>//阿拉伯数字转中文格式</p>
+<ul>
+<li>(NSString <em>)translation:(NSString </em>)arebic<br>{<br>NSString <em>str = arebic;<br>NSArray </em>arabic_numerals = @[@”1”,@”2”,@”3”,@”4”,@”5”,@”6”,@”7”,@”8”,@”9”,@”0”];<br>NSArray <em>chinese_numerals = @[@”一”,@”二”,@”三”,@”四”,@”五”,@”六”,@”七”,@”八”,@”九”,@”零”];<br>NSArray </em>digits = @[@”个”,@”十”,@”百”,@”千”,@”万”,@”十”,@”百”,@”千”,@”亿”,@”十”,@”百”,@”千”,@”兆”];<br>NSDictionary <em>dictionary = [NSDictionary dictionaryWithObjects:chinese_numerals forKeys:arabic_numerals];<br>NSMutableArray </em>sums = [NSMutableArray array];<br>for (int i = 0; i &lt; str.length; i ++) {<br>NSString <em>substr = [str substringWithRange:NSMakeRange(i, 1)];<br>NSString </em>a = [dictionary objectForKey:substr];<br>NSString <em>b = digits[str.length -i-1];<br>NSString </em>sum = [a stringByAppendingString:b];<br>if ([a isEqualToString:chinese_numerals[9]])<br>{<br>if([b isEqualToString:digits[4]] || [b isEqualToString:digits[8]])<br>{<br>sum = b;<br>if ([[sums lastObject] isEqualToString:chinese_numerals[9]])<br>{<br>[sums removeLastObject];<br>}<br>}else<br>{<br>sum = chinese_numerals[9];<br>}<br>if ([[sums lastObject] isEqualToString:sum])<br>{<br>continue;<br>}<br>}</li>
+</ul>
+<p>[sums addObject:sum];<br>}<br>NSString <em>sumStr = [sums componentsJoinedByString:@””];<br>NSString </em>chinese = [sumStr substringToIndex:sumStr.length-1];<br>NSLog(@”%@”,str);<br>NSLog(@”%@”,chinese);<br>return chinese;<br>}</p>
+<p>图片添加水印<br>-(UIImage <em>)aspjpegImage:(UIImage </em>)img withWord:(NSString <em>)word<br>{<br>NSString</em> mark = word;</p>
+<p>int w = img.size.width;</p>
+<p>int h = img.size.height;<br>//UIGraphicsBeginImageContext创建一个基于位图的上下文(context),并将其设置为当前上下文(context)<br>UIGraphicsBeginImageContext(img.size);</p>
+<p>[img drawInRect:CGRectMake(0, 0, w, h)];</p>
+<p>NSDictionary *attr = @{</p>
+<p>NSFontAttributeName: [UIFont boldSystemFontOfSize:20],   //设置字体</p>
+<p>NSForegroundColorAttributeName : [UIColor redColor]      //设置字体颜色</p>
+<p>};<br>//文本绘制 attr代表文本属性<br>[mark drawInRect:CGRectMake(0, 10, 100, 50) withAttributes:attr];                 //左上角</p>
+<p>[mark drawInRect:CGRectMake(w - 200, 10, 200, 50) withAttributes:attr];            //右上角</p>
+<p>[mark drawInRect:CGRectMake(w - 200, h - 50 - 10, 200, 50) withAttributes:attr];   //右下角</p>
+<p>[mark drawInRect:CGRectMake(0, h - 50 - 10, 200, 50) withAttributes:attr];        //左下角</p>
+<p>UIImage *newImg = UIGraphicsGetImageFromCurrentImageContext();</p>
+<p>UIGraphicsEndImageContext();</p>
+<p>return newImg;</p>
+<p>}</p>
+<p>取上整与取下整<br>floor(x),有时候也写做Floor(x)，其功能是“下取整”，即取不大于x的最大整数 例如：<br>x=3.14，floor(x)=3<br>y=9.99999，floor(y)=9<br>与floor函数对应的是ceil函数，即上取整函数。</p>
+<p>ceil函数的作用是求不小于给定实数的最小整数。<br>ceil(2)=ceil(1.2)=cei(1.5)=2.00<br>floor函数与ceil函数的返回值均为double型</p>
+<p>给UIView设置图片<br>UIImage *image = [UIImage imageNamed:@”image”];<br>self.MYView.layer.contents = (__bridge id _Nullable)(image.CGImage);<br>self.MYView.layer.contentsRect = CGRectMake(0, 0, 0.5, 0.5);</p>
+<p>41.防止scrollView手势覆盖侧滑手势<br>[scrollView.panGestureRecognizerrequireGestureRecognizerToFail:self.navigationController.interactivePopGestureRecognizer];</p>
+<p>//字符串中是否含有中文</p>
+<ul>
+<li>(BOOL)checkIsChinese:(NSString *)string<br>{<br>for (int i=0; i&lt;string.length; i++)<br>{<br>unichar ch = [string characterAtIndex:i];<br>if (0x4E00 &lt;= ch  &amp;&amp; ch &lt;= 0x9FA5)<br>{<br>return YES;<br>}<br>}<br>return NO;<br>}</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/06/KLXcodeClear/" rel="next" title="Xcode清理垃圾文件">
+                <i class="fa fa-chevron-left"></i> Xcode清理垃圾文件
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/17/KLiOS/" rel="prev" title="iOS近期看法">
+                iOS近期看法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">likuan</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">likuan</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
