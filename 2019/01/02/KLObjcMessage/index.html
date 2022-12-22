@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言想要通过runtime发送消息，就必须要掌握runtime如何发送消息，是调用哪个函数？又是如何调用的？本篇文章只是记录笔者学习objc_msgSend函数的使用笔记，若有误解之处，还请指出。谢谢！ objc_msgSend我们先来看看官方函数objc_msgSend的声明：12345678910/* Basic Messaging Primitives** On some architect">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS objc_msgSend详解">
+<meta property="og:url" content="http://yoursite.com/2019/01/02/KLObjcMessage/index.html">
+<meta property="og:site_name" content="KK">
+<meta property="og:description" content="前言想要通过runtime发送消息，就必须要掌握runtime如何发送消息，是调用哪个函数？又是如何调用的？本篇文章只是记录笔者学习objc_msgSend函数的使用笔记，若有误解之处，还请指出。谢谢！ objc_msgSend我们先来看看官方函数objc_msgSend的声明：12345678910/* Basic Messaging Primitives** On some architect">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-01-02T09:58:21.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS objc_msgSend详解">
+<meta name="twitter:description" content="前言想要通过runtime发送消息，就必须要掌握runtime如何发送消息，是调用哪个函数？又是如何调用的？本篇文章只是记录笔者学习objc_msgSend函数的使用笔记，若有误解之处，还请指出。谢谢！ objc_msgSend我们先来看看官方函数objc_msgSend的声明：12345678910/* Basic Messaging Primitives** On some architect">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/01/02/KLObjcMessage/"/>
+
+
+
+
+
+  <title>iOS objc_msgSend详解 | KK</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">KK</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/02/KLObjcMessage/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="likuan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="KK">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">iOS objc_msgSend详解</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-02T17:46:17+08:00">
+                2019-01-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>前言<br>想要通过runtime发送消息，就必须要掌握runtime如何发送消息，是调用哪个函数？又是如何调用的？本篇文章只是记录笔者学习objc_msgSend函数的使用笔记，若有误解之处，还请指出。谢谢！</p>
+<p>objc_msgSend<br>我们先来看看官方函数objc_msgSend的声明：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/* Basic Messaging Primitives</span><br><span class="line">*</span><br><span class="line">* On some architectures, use objc_msgSend_stret for some struct return types.</span><br><span class="line">* On some architectures, use objc_msgSend_fpret for some float return types.</span><br><span class="line">* On some architectures, use objc_msgSend_fp2ret for some float return types.</span><br><span class="line">*</span><br><span class="line">* These functions must be cast to an appropriate function pointer type</span><br><span class="line">* before being called.</span><br><span class="line">*/</span><br><span class="line">void objc_msgSend(void /* id self, SEL op, ... */ )</span><br></pre></td></tr></table></figure></p>
+<p>从这个函数的注释可以看出来了，这是个最基本的用于发送消息的函数。另外，这个函数并不能发送所有类型的消息，只能发送基本的消息。比如，在一些处理器上，我们必须使用objc_msgSend_stret来发送返回值类型为结构体的消息，使用objc_msgSend_fpret来发送返回值类型为浮点类型的消息，而又在一些处理器上，还得使用objc_msgSend_fp2ret来发送返回值类型为浮点类型的消息。</p>
+<p>最关键的一点：无论何时，要调用objc_msgSend函数，必须要将函数强制转换成合适的函数指针类型才能调用。</p>
+<p>从objc_msgSend函数的声明来看，它应该是不带返回值的，但是我们在使用中却可以强制转换类型，以便接收返回值。另外，它的参数列表是可以任意多个的，前提也是要强制函数指针类型。</p>
+<p>学习使用<br>我们建立一个类，就专门学习如何运用objc_msgSend函数来发送消息。我们建立了一个HYBMsgSend类来学习。</p>
+<p>1.创建并初始化对象<br>我们一直以来都是使用类似这样的[[HYBMsgSend alloc] init]来创建并初始化对象吧，其实在编译时，这一行代码也会转换成类似如下的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 1.创建对象</span><br><span class="line">HYBMsgSend *msg = ((HYBMsgSend * (*)(id, SEL))objc_msgSend)((id)[HYBMsgSend class], @selector(alloc));</span><br><span class="line"></span><br><span class="line">// 2.初始化对象</span><br><span class="line">msg = ((HYBMsgSend * (*)(id, SEL))objc_msgSend)((id)msg, @selector(init));</span><br></pre></td></tr></table></figure></p>
+<p>要发送消息给msg对象，并将创建的对象返回，那么我们需要强转函数指针类型。(HYBMsgSend <em> (</em>)(id, SEL)这是带一个对象指针返回值和两个参数的函数指针，这样就可以调用了。</p>
+<p>2.发送无参数无返回值消息<br>我们先定义一个方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (void)noArgumentsAndNoReturnValue &#123;</span><br><span class="line">NSLog(@&quot;%s was called, and it has no arguments and return value&quot;, __FUNCTION__);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后，我们发送消息，测试一下结果。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 2.调用无参数无返回值方法</span><br><span class="line">((void (*)(id, SEL))objc_msgSend)((id)msg, @selector(noArgumentsAndNoReturnValue));</span><br></pre></td></tr></table></figure></p>
+<p>结果如下，说明成功地接收到消息并处理了：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-[HYBMsgSend noArgumentsAndNoReturnValue] was called, and it has no arguments and return value</span><br></pre></td></tr></table></figure></p>
+<p>3.带参数不带返回值消息<br>我们定义一个方法只带参数，不带返回值：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (void)hasArguments:(NSString *)arg &#123;</span><br><span class="line">NSLog(@&quot;%s was called, and argument is %@&quot;, __FUNCTION__, arg);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后尝试发送消息试试：</p>
+<p>// 3.调用带一个参数但无返回值的方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">((void (*)(id, SEL, NSString *))objc_msgSend)((id)msg, @selector(hasArguments:), @&quot;带一个参数，但无返回值&quot;);</span><br></pre></td></tr></table></figure></p>
+<p>同样，我们也是需要强转函数指针类型，否则会报错的。其实，只有调用runtime函数来发送消息，几乎都需要强转函数指针类型为合适的类型。</p>
+<p>其打印结果说明成功接收到消息并处理了：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-[HYBMsgSend hasArguments:] was called, and argument is 带一个参数，但无返回值</span><br></pre></td></tr></table></figure></p>
+<p>4.带返回值不带参数消息<br>当消息带有返回值时，我们如何接收呢？我们先声明一个方法，让它带有返回值，但是不带参数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (NSString *)noArgumentsButReturnValue &#123;</span><br><span class="line">NSLog(@&quot;%s was called, and return value is %@&quot;, __FUNCTION__, @&quot;不带参数，但是带有返回值&quot;);</span><br><span class="line">return @&quot;不带参数，但是带有返回值&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后发送消息，并接收返回值：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// 4.调用带返回值，但是不带参数</span><br><span class="line">NSString *retValue = ((NSString * (*)(id, SEL))objc_msgSend)((id)msg, @selector(noArgumentsButReturnValue));</span><br><span class="line">NSLog(@&quot;5. 返回值为：%@&quot;, retValue);</span><br></pre></td></tr></table></figure></p>
+<p>打印结果说明成功地发送了消息并得到处理，且成功地获取到了返回值：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-[HYBMsgSend noArgumentsButReturnValue] was called, and return value is 不带参数，但是带有返回值</span><br></pre></td></tr></table></figure></p>
+<p>5.带参数带返回值的消息<br>定义一个带参数带普通返回值的方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (int)hasArguments:(NSString *)arg andReturnValue:(int)arg1 &#123;</span><br><span class="line">NSLog(@&quot;%s was called, and argument is %@, return value is %d&quot;, __FUNCTION__, arg, arg1);</span><br><span class="line">return arg1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>发送消息，并接收返回值：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 6.带参数带返回值</span><br><span class="line">int returnValue = ((int (*)(id, SEL, NSString *, int))</span><br><span class="line">objc_msgSend)((id)msg,</span><br><span class="line">@selector(hasArguments:andReturnValue:),</span><br><span class="line">@&quot;参数1&quot;,</span><br><span class="line">2016);</span><br><span class="line">NSLog(@&quot;6. return value is %d&quot;, returnValue);</span><br></pre></td></tr></table></figure></p>
+<p>其结果如下，说明调用成功，参数也传过去了，返回值也接收到了：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-[HYBMsgSend hasArguments:andReturnValue:] was called, and argument is 参数1, return value is 2016</span><br><span class="line">6. return value is 2016</span><br></pre></td></tr></table></figure></p>
+<p>6.动态添加方法再调用<br>我们声明一个C语言函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// C函数</span><br><span class="line">int cStyleFunc(const void *arg1, const void *arg2) &#123;</span><br><span class="line">NSLog(@&quot;%s was called, arg1 is %s, and arg2 is %s&quot;, __FUNCTION__, arg1, arg2);</span><br><span class="line">return 1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个函数并不属性对象方法，因此我们不能直接调用，但是我们可以动态地添加方法到对象中，然后再发送消息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">class_addMethod(msg.class, NSSelectorFromString(@&quot;cStyleFunc&quot;), (IMP)cStyleFunc, &quot;v@:&quot;);</span><br><span class="line">returnValue = ((int (*)(id, SEL, const void *, const void *))</span><br><span class="line">objc_msgSend)((id)msg,</span><br><span class="line">NSSelectorFromString(@&quot;cStyleFunc&quot;),</span><br><span class="line">&quot;参数1&quot;,</span><br><span class="line">&quot;参数2&quot;);</span><br><span class="line">NSLog(@&quot;7. return value is %d&quot;, returnValue);</span><br></pre></td></tr></table></figure></p>
+<p>7.带浮点返回值的消息<br>对于发送带浮点返回值类型的消息，我们可以使用objc_msgSend_fpret也可以使用objc_msgSend。不过这两个函数返回结果是一样的。笔者并不是很清楚，这两个函数的主要区别是什么。根据注释说明，只是说有一些处理器上，需要使用objc_msgSend_fpret来发送带浮点返回值类型的消息。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">float retFloatValue = ((float (*)(id, SEL))objc_msgSend_fpret)((id)msg, @selector(returnFloatType));</span><br><span class="line">NSLog(@&quot;%f&quot;, retFloatValue);</span><br><span class="line"></span><br><span class="line">retFloatValue = ((float (*)(id, SEL))objc_msgSend)((id)msg, @selector(returnFloatType));</span><br><span class="line">NSLog(@&quot;%f&quot;, retFloatValue);</span><br></pre></td></tr></table></figure></p>
+<p>8.带结构体返回值的消息<br>对于返回值类型为结构体的消息，我们必须使用objc_msgSend_stret而不能直接使用objc_msgSend函数，否则会crash：</p>
+<p>// 9.返回结构体时，不能使用objc_msgSend，而是要使用objc_msgSend_stret，否则会crash<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CGRect frame = ((CGRect (*)(id, SEL))objc_msgSend_stret)((id)msg, @selector(returnTypeIsStruct));</span><br><span class="line">NSLog(@&quot;9. return value is %@&quot;, NSStringFromCGRect(frame));</span><br></pre></td></tr></table></figure></p>
+<p>摘自：<a href="https://blog.csdn.net/woaifen3344/article/details/50448010" target="_blank" rel="noopener">https://blog.csdn.net/woaifen3344/article/details/50448010</a><br>源代码：<a href="https://github.com/CoderJackyHuang/RuntimeDemo" target="_blank" rel="noopener">https://github.com/CoderJackyHuang/RuntimeDemo</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/20/KLFaceRecognition/" rel="next" title="iOS人脸识别方案浅谈">
+                <i class="fa fa-chevron-left"></i> iOS人脸识别方案浅谈
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/06/KLXcodeClear/" rel="prev" title="Xcode清理垃圾文件">
+                Xcode清理垃圾文件 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">likuan</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">likuan</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
